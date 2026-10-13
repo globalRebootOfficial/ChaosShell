@@ -1,0 +1,15 @@
+workflows:
+  android-debug:
+    name: ChaosShell Android APK
+    instance_type: linux_x2
+    max_build_duration: 60
+    environment:
+      java: 17
+    scripts:
+      - name: Set Android SDK location
+        script: echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+      - name: Build installable debug APK
+        script: |
+          gradle --no-daemon :app:assembleDebug
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
